@@ -15,13 +15,7 @@
   "_states": [
     {
       "blendState": {
-        "targets": [
-          {
-            "blend": true,
-            "blendDst": 1,
-            "blendSrc": 2
-          }
-        ]
+        "targets": []
       },
       "depthStencilState": {},
       "rasterizerState": {}
@@ -30,16 +24,8 @@
   "_props": [
     {
       "mainTexture": {
-        "__uuid__": "a9dbd99f-4364-4b96-a6a3-d8aaf7228b3c@6c48a"
-      },
-      "mainColor": {
-        "__type__": "cc.Color",
-        "r": 76,
-        "g": 162,
-        "b": 104,
-        "a": 255
-      },
-      "alphaThreshold": 0.1
+        "__uuid__": "6d8178b1-f510-4052-ac0c-7ef7db90f350@6c48a"
+      }
     }
   ]
 }

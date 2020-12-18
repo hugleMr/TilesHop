@@ -2,7 +2,7 @@
   "ver": "1.0.21",
   "importer": "image",
   "imported": true,
-  "uuid": "ddb3f396-4dfb-4273-828a-8f9de7617edb",
+  "uuid": "f6441834-bde7-4935-a36b-ce5bf282d9af",
   "files": [
     ".png",
     ".json"
@@ -10,8 +10,8 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "ddb3f396-4dfb-4273-828a-8f9de7617edb@6c48a",
-      "displayName": "Rectangle 1 copy 2",
+      "uuid": "f6441834-bde7-4935-a36b-ce5bf282d9af@6c48a",
+      "displayName": "plattutu",
       "id": "6c48a",
       "name": "texture",
       "ver": "1.0.20",
@@ -28,13 +28,13 @@
         "mipfilter": "none",
         "anisotropy": 1,
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "ddb3f396-4dfb-4273-828a-8f9de7617edb"
+        "imageUuidOrDatabaseUri": "f6441834-bde7-4935-a36b-ce5bf282d9af"
       }
     }
   },
   "userData": {
     "hasAlpha": true,
     "type": "texture",
-    "redirect": "ddb3f396-4dfb-4273-828a-8f9de7617edb@6c48a"
+    "redirect": "f6441834-bde7-4935-a36b-ce5bf282d9af@6c48a"
   }
 }

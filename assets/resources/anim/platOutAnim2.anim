@@ -1,0 +1,116 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "platOutAnim2",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 60,
+    "speed": 1,
+    "wrapMode": 0,
+    "events": [],
+    "_duration": 0.4166666666666667,
+    "_keys": [
+      [
+        0,
+        0.4166666666666667
+      ],
+      [
+        0,
+        0.06666666666666667,
+        0.08333333333333333,
+        0.3,
+        0.4166666666666667
+      ]
+    ],
+    "_stepness": 0,
+    "_curves": [
+      {
+        "modifiers": [
+          "scale"
+        ],
+        "data": {
+          "keys": 0,
+          "values": [
+            {
+              "__type__": "cc.Vec3",
+              "x": 0.06,
+              "y": 0,
+              "z": 0.06
+            },
+            {
+              "__type__": "cc.Vec3",
+              "x": 0.08,
+              "y": 0,
+              "z": 0.08
+            }
+          ],
+          "easingMethods": {}
+        }
+      },
+      {
+        "modifiers": [
+          {
+            "__id__": 1
+          },
+          "materials",
+          0
+        ],
+        "valueAdapter": {
+          "__id__": 2
+        },
+        "data": {
+          "keys": 1,
+          "values": [
+            {
+              "__type__": "cc.Color",
+              "r": 207,
+              "g": 199,
+              "b": 228,
+              "a": 0
+            },
+            {
+              "__type__": "cc.Color",
+              "r": 164,
+              "g": 161,
+              "b": 174,
+              "a": 0
+            },
+            {
+              "__type__": "cc.Color",
+              "r": 161,
+              "g": 158,
+              "b": 170,
+              "a": 255
+            },
+            {
+              "__type__": "cc.Color",
+              "r": 108,
+              "g": 111,
+              "b": 103,
+              "a": 143
+            },
+            {
+              "__type__": "cc.Color",
+              "r": 43,
+              "g": 53,
+              "b": 21,
+              "a": 0
+            }
+          ],
+          "easingMethods": {}
+        }
+      }
+    ],
+    "_commonTargets": [],
+    "_hash": 2178139376
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.MeshRenderer"
+  },
+  {
+    "__type__": "cc.animation.UniformProxyFactory",
+    "passIndex": 0,
+    "uniformName": "mainColor"
+  }
+]

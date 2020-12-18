@@ -1,0 +1,122 @@
+{
+  "ver": "1.3.23",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48",
+  "files": [],
+  "subMetas": {
+    "26548": {
+      "importer": "gltf-material",
+      "uuid": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@26548",
+      "displayName": "",
+      "id": "26548",
+      "name": "overlay-material.material",
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {},
+      "userData": {
+        "gltfIndex": 0
+      }
+    },
+    "bdf2a": {
+      "importer": "gltf-mesh",
+      "uuid": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@bdf2a",
+      "displayName": "",
+      "id": "bdf2a",
+      "name": "RoadOverlay.mesh",
+      "ver": "1.1.0",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {},
+      "userData": {
+        "gltfIndex": 0
+      }
+    },
+    "e5a01": {
+      "importer": "gltf-embeded-image",
+      "uuid": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@e5a01",
+      "displayName": "",
+      "id": "e5a01",
+      "name": "road-overlay2.png.image",
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".png",
+        ".json"
+      ],
+      "subMetas": {},
+      "userData": {
+        "gltfIndex": 0
+      }
+    },
+    "e9077": {
+      "importer": "texture",
+      "uuid": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@e9077",
+      "displayName": "",
+      "id": "e9077",
+      "name": "road-overlay2.texture",
+      "ver": "1.0.20",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {},
+      "userData": {
+        "wrapModeS": "repeat",
+        "wrapModeT": "repeat",
+        "minfilter": "linear",
+        "magfilter": "linear",
+        "mipfilter": "none",
+        "anisotropy": 1,
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@e5a01"
+      }
+    },
+    "5eae6": {
+      "importer": "gltf-scene",
+      "uuid": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@5eae6",
+      "displayName": "",
+      "id": "5eae6",
+      "name": "RoadOverlay.prefab",
+      "ver": "1.0.11",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {},
+      "userData": {
+        "gltfIndex": 0
+      }
+    }
+  },
+  "userData": {
+    "imageMetas": [
+      {
+        "name": "road-overlay2.png",
+        "uri": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@e5a01"
+      }
+    ],
+    "redirect": "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@5eae6",
+    "assetFinder": {
+      "meshes": [
+        "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@bdf2a"
+      ],
+      "skeletons": [],
+      "textures": [
+        "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@e9077"
+      ],
+      "materials": [
+        "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@26548"
+      ],
+      "scenes": [
+        "37fd9c6a-44f6-4c7b-8a0e-5a84fdd71e48@5eae6"
+      ]
+    }
+  }
+}

@@ -1,14 +1,8 @@
 {
   "startTime": 0,
   "duration": 95.1049063541666,
-  "length": 125,
+  "length": 124,
   "notes": [
-    {
-      "index": 0,
-      "time": 0,
-      "space": 0,
-      "next": 0
-    },
     {
       "index": 1,
       "time": 0.9465643333333333,

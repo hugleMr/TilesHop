@@ -1,0 +1,48 @@
+[
+  {
+    "__type__": "cc.AnimationClip",
+    "_name": "loading",
+    "_objFlags": 0,
+    "_native": "",
+    "sample": 60,
+    "speed": 1,
+    "wrapMode": 2,
+    "events": [],
+    "_duration": 0.5,
+    "_keys": [
+      [
+        0,
+        0.16666666666666666,
+        0.3333333333333333,
+        0.5
+      ]
+    ],
+    "_stepness": 0,
+    "_curves": [
+      {
+        "modifiers": [
+          {
+            "__id__": 1
+          },
+          "string"
+        ],
+        "data": {
+          "keys": 0,
+          "values": [
+            "LOADING...",
+            "LOADING.",
+            "LOADING..",
+            "LOADING..."
+          ],
+          "easingMethods": {}
+        }
+      }
+    ],
+    "_commonTargets": [],
+    "_hash": 1792593774
+  },
+  {
+    "__type__": "cc.animation.ComponentPath",
+    "component": "cc.Label"
+  }
+]

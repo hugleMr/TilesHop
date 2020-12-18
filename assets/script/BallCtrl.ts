@@ -1,13 +1,12 @@
-import { _decorator, Component, Node, Vec3 } from 'cc';
+import { _decorator, Component, Node, Vec3, SystemEvent } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('BallCtrl')
 export class BallCtrl extends Component {
-    private gravity: number = -15;
+    private gravity: number = -20;
     private vz : number = -25;
     private vx : number = 0;
     private vy : number = 0;
-    private currentPosY : number = 0;
 
     private jumTime: number = 0;
     private passedTime : number = 0;
@@ -22,15 +21,24 @@ export class BallCtrl extends Component {
 
     start(){
         this.cameraOffetZ = this.camera.worldPosition.z - this.node.worldPosition.z;
-        this.currentPosY = this.node.worldPosition.y;
+    }
+
+    reset(){
+        this.isJumping = false;
+        this.vx = 0;
+        this.vy = 0;
+        this.jumTime = 0;
+        this.passedTime = 0;
+        this.missing_time = 0;
+        this.cameraOffetZ = this.camera.worldPosition.z - this.node.worldPosition.z;
+        this.node.setWorldPosition(new Vec3(0,0.5,0));
     }
 
     public getVz() : number{
         return this.vz;
     }
 
-    public jumpTo(dst : Vec3,time : number,endFunc : Function){
-        console.log("jump");
+    public jumpTo(dst : Vec3,time : number,index : number,endFunc : Function){
         if(this.isJumping === true){
             return;
         }
@@ -46,19 +54,18 @@ export class BallCtrl extends Component {
         this.vx = 0;
         if(this.jumTime > 0){
             this.vx = (dst.x - src.x) / this.jumTime;
-        }else{
-            this.vx = dst.x - src.x;
         }
         this.vy = -this.gravity * this.jumTime * 0.5;
+        if(this.jumTime > 2){
+            this.vy *= 0.2;
+        }
 
         this.isJumping = true;
         this.passedTime = 0;
     }
 
     update(dt) : void{
-        if(this.isJumping === false){
-            return;
-        }
+        if(this.isJumping === false) return;
 
         this.passedTime += dt;
         if(this.passedTime > this.jumTime){
@@ -70,7 +77,10 @@ export class BallCtrl extends Component {
         pos.z += this.vz * dt;
 
         pos.y += this.vy * dt + this.gravity * dt * dt * 0.5;// s = s0 + v0*t + a*t*t*0.5;
-        this.vy += this.gravity * dt; // v = v0 + a*t;
+        if(pos.y <= 0.5){
+            pos.y = 0.5;
+        } 
+        this.vy += (this.jumTime > 2 ? 0.2 : 1) * this.gravity * dt; // v = v0 + a*t;
 
         this.node.setWorldPosition(pos);
         
@@ -83,7 +93,7 @@ export class BallCtrl extends Component {
     }
 
     lateUpdate(): void{
-        if(this.camera){
+        if(this.camera && this.isJumping){
             let pos = this.camera.getWorldPosition();
             pos.z = this.node.worldPosition.z + this.cameraOffetZ;
             this.camera.setWorldPosition(pos);

@@ -1,0 +1,92 @@
+{
+  "__type__": "cc.Material",
+  "_name": "",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "1baf0fc9-befa-459c-8bdd-af1a450a0319"
+  },
+  "_techIdx": 0,
+  "_defines": [
+    {
+      "USE_LIGHTMAP": true,
+      "USE_VERTEX_COLOR": true,
+      "USE_ALBEDO_MAP": true
+    },
+    {
+      "USE_LIGHTMAP": true,
+      "USE_VERTEX_COLOR": true,
+      "USE_ALBEDO_MAP": true,
+      "USE_ALPHA_TEST": true
+    },
+    {
+      "USE_LIGHTMAP": true,
+      "USE_ALBEDO_MAP": true,
+      "USE_ALPHA_TEST": true
+    }
+  ],
+  "_states": [
+    {
+      "blendState": {
+        "isA2C": true,
+        "targets": [
+          {
+            "blend": true,
+            "blendDst": 1,
+            "blendDstAlpha": 1,
+            "blendSrc": 2,
+            "blendSrcAlpha": 2
+          }
+        ]
+      },
+      "depthStencilState": {},
+      "rasterizerState": {}
+    },
+    {
+      "blendState": {
+        "isA2C": true,
+        "targets": [
+          {
+            "blendSrc": 2,
+            "blendSrcAlpha": 2
+          }
+        ]
+      },
+      "depthStencilState": {},
+      "rasterizerState": {}
+    },
+    {
+      "blendState": {
+        "isA2C": true,
+        "targets": [
+          {
+            "blend": true,
+            "blendDst": 1,
+            "blendDstAlpha": 1,
+            "blendSrc": 2,
+            "blendSrcAlpha": 2
+          }
+        ]
+      },
+      "depthStencilState": {},
+      "rasterizerState": {}
+    }
+  ],
+  "_props": [
+    {
+      "alphaThreshold": 0,
+      "emissive": {
+        "__type__": "cc.Color",
+        "r": 143,
+        "g": 30,
+        "b": 30,
+        "a": 255
+      },
+      "mainTexture": {
+        "__uuid__": "f6441834-bde7-4935-a36b-ce5bf282d9af@6c48a"
+      }
+    },
+    {},
+    {}
+  ]
+}
