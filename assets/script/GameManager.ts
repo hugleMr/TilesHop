@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, instantiate, Vec3, JsonAsset, systemEvent, SystemEvent, EventKeyboard,geometry, loader, AudioClip, Animation, tween, Vec2, CameraComponent, UITransformComponent, Enum } from 'cc';
+import { _decorator, Component, Node, instantiate, Vec3, JsonAsset, systemEvent, SystemEvent, EventKeyboard,geometry, loader, AudioClip, Animation, tween, Vec2, CameraComponent, UITransformComponent, Enum, Label, SystemEventType, EventTouch } from 'cc';
 import { BallCtrl } from './BallCtrl';
 import { PlatCtrl } from './PlatCtrl';
 const { ccclass, property } = _decorator;
@@ -29,6 +29,10 @@ export class Typescript extends Component {
 
     @property(Node)
     loadingNode : Node = null;
+    @property(Node)
+    gameoverNode : Node = null;
+    @property(Node)
+    btnPlay : Node = null;
 
     private notes = [];
     private touch_moved : boolean = false;
@@ -47,24 +51,24 @@ export class Typescript extends Component {
 
     start () {
         this.loadingNode.active = true;
-        this.handleTouch();
+        this.gameoverNode.active = false;
         this.preLoadMusic();
         this.init();
-        systemEvent.on(SystemEvent.EventType.KEY_DOWN,(event : EventKeyboard) => {
-            let char = String.fromCharCode(event.keyCode);
-            if(this.isReady){
-                // this.isReady = false;
-                // this.music.play();
-                // this.music.setLoop(true);
-                // this.jumpToNext();
-            }
-            if(char == 'A'){
+        // systemEvent.on(SystemEvent.EventType.KEY_DOWN,(event : EventKeyboard) => {
+        //     let char = String.fromCharCode(event.keyCode);
+        //     if(this.isReady){
+        //         // this.isReady = false;
+        //         // this.music.play();
+        //         // this.music.setLoop(true);
+        //         // this.jumpToNext();
+        //     }
+        //     if(char == 'A'){
                 
-            }
-            if(char == 'D'){
+        //     }
+        //     if(char == 'D'){
                 
-            }
-        },this);
+        //     }
+        // },this);
     }
 
     preLoadMusic(){
@@ -74,33 +78,28 @@ export class Typescript extends Component {
             self.music = audio;
             self.isReady = true;
             self.loadingNode.active = false;
-            if(self.isReady){
-                self.isReady = false;
-                self.music.play();
-                self.jumpToNext();
-            }
+            self.btnPlay.active = true;
         });
     }
 
-    handleTouch(){
-        // this.uiTransform = this.canvas.getComponent(UITransformComponent);
-        // this.canvas.on(SystemEvent.EventType.TOUCH_START, this.onTouchBegan, this);
-        // this.canvas.on(SystemEvent.EventType.TOUCH_MOVE, this.onTouchMoved, this);
-        // this.canvas.on(SystemEvent.EventType.TOUCH_END, this.onTouchEnded, this);
+    onEnable() {
+        systemEvent.on(SystemEventType.TOUCH_START, this.onTouchBegan, this);
+        systemEvent.on(SystemEventType.TOUCH_MOVE, this.onTouchMoved, this);
+        systemEvent.on(SystemEventType.TOUCH_END, this.onTouchEnded, this);
+    }
+
+    onDisable() {
+        systemEvent.off(SystemEventType.TOUCH_START, this.onTouchBegan, this);
+        systemEvent.off(SystemEventType.TOUCH_MOVE, this.onTouchMoved, this);
+        systemEvent.off(SystemEventType.TOUCH_END, this.onTouchEnded, this);
     }
 
     onTouchBegan(event){
-        let location = event.getUILocation();
-        let pos = this.uiTransform.convertToNodeSpaceAR(new Vec3(location.x, location.y));
-        this.touch_offset = pos.x;
+        // const pos = event.getDelta();
     }
     onTouchMoved(event){
-        let location = event.getUILocation();
-        let pos = this.uiTransform.convertToNodeSpaceAR(new Vec3(location.x, location.y));
-        let x = pos.x - this.touch_offset;
-        console.log("delta : ",x);
+        const x = event.getDelta().x;
         
-        let newPos = this.ctrl.node.getWorldPosition();
         if(x == 0){
             this.direction = Direction.IDLE;
         }else{
@@ -109,7 +108,7 @@ export class Typescript extends Component {
 
         switch (this.direction) {
             case Direction.IDLE:
-                return;
+                this.touch_move_speed = 0;
                 break;
             case Direction.RIGHT:
                 this.touch_move_speed = 1;
@@ -121,9 +120,9 @@ export class Typescript extends Component {
                 return;
                 break;
         }
-        newPos.x += this.touch_move_speed * 0.06;
+        let newPos = this.ctrl.node.getWorldPosition();
+        newPos.x += this.touch_move_speed * 0.125;
         this.ctrl.node.setWorldPosition(newPos);
-        this.touch_offset = pos.x;
     }
     onTouchEnded(event){
         // this.direction = Direction.IDLE;
@@ -153,19 +152,26 @@ export class Typescript extends Component {
         let index = 0;
         if(this.curIndex > 0){
             index = this.curIndex - 1;
+            let prevPlat : Node = this.platRoot.children[index];
+            let platOut = prevPlat.getChildByName("plat_out");
+            let platOut2 = prevPlat.getChildByName("plat_out2");
+            platOut.active = true;
+            platOut2.active = true;
+            platOut.getComponent(Animation).play();
+            platOut2.getComponent(Animation).play();
+            let platItem = prevPlat.getChildByName("it");
+            tween(platItem)
+                .by(0.1,{position : new Vec3(0,-0.004,0)})
+                .by(0.1,{position : new Vec3(0,0.004,0)})
+                .start();
         }
 
-        let prevPlat : Node = this.platRoot.children[index];
-        let platOut = prevPlat.getChildByName("plat_out");
-        let platOut2 = prevPlat.getChildByName("plat_out2");
-        platOut.active = true;
-        platOut2.active = true;
-        platOut.getComponent(Animation).play();
-        platOut2.getComponent(Animation).play();
-        let platItem = prevPlat.getChildByName("it");
-        tween(platItem)
-            .by(0.1,{position : new Vec3(0,-0.004,0)})
-            .by(0.1,{position : new Vec3(0,0.004,0)})
+        let time = platComp.getTime();
+        let minScale = new Vec3(0.75,0.8,0.75);
+        let maxScale = new Vec3(0.9,0.9,0.9);
+        tween(this.ctrl.node)
+            .to(time*0.5,{scale : maxScale})
+            .to(time*0.5,{scale : minScale})
             .start();
         this.ctrl.jumpTo(dst,platComp.getTime(),index,(missing_time : number) => {
             if(this.checkContact()){
@@ -174,9 +180,17 @@ export class Typescript extends Component {
                 this.curIndexMidi ++;
                 this.jumpToNext();
             }else{
-                this.resetGame();
+                this.gameOver();
             }
         });
+    }
+
+    gameOver(){
+        this.gameoverNode.active = true;
+        this.ctrl.node.active = false;
+        this.isReady = false;
+        this.music.stop();
+        this.resetGame();
     }
 
     resetGame(){
@@ -185,22 +199,33 @@ export class Typescript extends Component {
             this.platRoot.children[i].destroy();
         }
 
-        console.log("platRoot.children : ",this.platRoot.children.length);
+        tween(this.node)
+        .delay(1)
+        .call(() => {
+            this.isReady = true;
+            this.btnPlay.active = true;
+            this.node.getChildByName("Main Camera").setWorldPosition(this.originCameraPosition);
+        
+            this.curIndex = 0;
+            this.curIndexMidi = 0;
+            this.startPos = new Vec3(0,0,0);
+            
+            for(let i = 0; i < 4; i++){
+                this.genPlat();
+                this.curIndexMidi++;
+            }
+        })
+        .start();
+    }
 
-        this.node.getChildByName("Main Camera").setWorldPosition(this.originCameraPosition);
-        
-        this.curIndex = 0;
-        this.curIndexMidi = 0;
-        this.startPos = new Vec3(0,0,0);
-        
-        for(let i = 0; i < 4; i++){
-            this.genPlat();
-            this.curIndexMidi++;
+    playGame(){
+        if(this.isReady){
+            this.btnPlay.active = false;
+            this.gameoverNode.active = false;
+            this.ctrl.node.active = true;
+            this.music.play();
+            this.jumpToNext();
         }
-
-        this.music.stop();
-        this.music.play();
-        this.jumpToNext();
     }
 
     checkContact() : boolean{

@@ -73,7 +73,7 @@ export class BallCtrl extends Component {
             dt -= this.missing_time;
         }
         let pos = this.node.getWorldPosition();
-        pos.x += this.vx * dt;
+        // pos.x += this.vx * dt;
         pos.z += this.vz * dt;
 
         pos.y += this.vy * dt + this.gravity * dt * dt * 0.5;// s = s0 + v0*t + a*t*t*0.5;
