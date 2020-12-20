@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, instantiate, Vec3, JsonAsset, systemEvent, SystemEvent, EventKeyboard,geometry, loader, AudioClip, Animation, tween, Vec2, CameraComponent, UITransformComponent, Enum, Label, SystemEventType, EventTouch } from 'cc';
+import { _decorator, Component, Node, instantiate, Vec3, JsonAsset, systemEvent, loader, AudioClip, Animation, tween, Enum, SystemEventType} from 'cc';
 import { BallCtrl } from './BallCtrl';
 import { PlatCtrl } from './PlatCtrl';
 const { ccclass, property } = _decorator;
@@ -45,8 +45,6 @@ export class Typescript extends Component {
     @property(Node)
     canvas : Node = null;
 
-    uiTransform : UITransformComponent = null;
-
     private originCameraPosition : Vec3 = new Vec3(0,0,0);
 
     start () {
@@ -54,32 +52,21 @@ export class Typescript extends Component {
         this.gameoverNode.active = false;
         this.preLoadMusic();
         this.init();
-        // systemEvent.on(SystemEvent.EventType.KEY_DOWN,(event : EventKeyboard) => {
-        //     let char = String.fromCharCode(event.keyCode);
-        //     if(this.isReady){
-        //         // this.isReady = false;
-        //         // this.music.play();
-        //         // this.music.setLoop(true);
-        //         // this.jumpToNext();
-        //     }
-        //     if(char == 'A'){
-                
-        //     }
-        //     if(char == 'D'){
-                
-        //     }
-        // },this);
     }
 
     preLoadMusic(){
-        let self = this;
-        loader.loadRes("Sound/AnhSaiRoi_ST",AudioClip,function(err,audio){
+        loader.loadRes("Sound/EmDungDi_ST",AudioClip,function(err,audio){
             console.log("load audio done!",audio);
-            self.music = audio;
-            self.isReady = true;
-            self.loadingNode.active = false;
-            self.btnPlay.active = true;
-        });
+            tween(this.node)
+            .delay(2)
+            .call(() => {
+                this.music = audio;
+                this.isReady = true;
+                this.loadingNode.active = false;
+                this.btnPlay.active = true;
+            })
+            .start();
+        }.bind(this));
     }
 
     onEnable() {
@@ -95,14 +82,13 @@ export class Typescript extends Component {
     }
 
     onTouchBegan(event){
-        // const pos = event.getDelta();
     }
     onTouchMoved(event){
+        if(this.btnPlay.active == true || !this.isReady){
+            return;
+        }
         const x = event.getDelta().x;
-        
-        if(x == 0){
-            this.direction = Direction.IDLE;
-        }else{
+        if(x != 0){
             this.direction = x > 0 ? Direction.RIGHT : Direction.LEFT;
         }
 
@@ -121,7 +107,8 @@ export class Typescript extends Component {
                 break;
         }
         let newPos = this.ctrl.node.getWorldPosition();
-        newPos.x += this.touch_move_speed * 0.125;
+        newPos.x += x*0.025;
+        
         this.ctrl.node.setWorldPosition(newPos);
     }
     onTouchEnded(event){
@@ -134,8 +121,13 @@ export class Typescript extends Component {
         this.platPrefab = instantiate(this.node.getChildByName('platStart'));
 
         let info = this.midiJson.json;
-        this.notes = info["notes"];
-        for(let i = 0; i < 4; i++){
+        let _notes = info["tracks"][1]["notes"];
+        // let _notes = info["notes"];
+        for(let i = 0; i < _notes.length; i++){
+            let space = _notes[i].time - (i > 0 ? _notes[i - 1].time : 0);
+            this.notes.push(space);
+        }
+        for(let i = 0; i < 5; i++){
             this.genPlat();
             this.curIndexMidi++;
         }
@@ -145,6 +137,10 @@ export class Typescript extends Component {
         if(this.curIndex >= this.platRoot.children.length){
             return;
         }
+        // if(this.curIndexMidi > this.notes.length){
+        //     // this.gameOver();
+        //     return;
+        // }
         let plat = this.platRoot.children[this.curIndex];
         let platComp : PlatCtrl = plat.getComponent(PlatCtrl);
         let dst = plat.getWorldPosition();
@@ -152,18 +148,11 @@ export class Typescript extends Component {
         let index = 0;
         if(this.curIndex > 0){
             index = this.curIndex - 1;
-            let prevPlat : Node = this.platRoot.children[index];
-            let platOut = prevPlat.getChildByName("plat_out");
-            let platOut2 = prevPlat.getChildByName("plat_out2");
-            platOut.active = true;
-            platOut2.active = true;
-            platOut.getComponent(Animation).play();
-            platOut2.getComponent(Animation).play();
-            let platItem = prevPlat.getChildByName("it");
-            tween(platItem)
-                .by(0.1,{position : new Vec3(0,-0.004,0)})
-                .by(0.1,{position : new Vec3(0,0.004,0)})
-                .start();
+            let prevPlat = this.platRoot.children[index];
+            if(prevPlat != null){
+                let prevPlatComp = prevPlat.getComponent(PlatCtrl);
+                prevPlatComp.playAnim();
+            }
         }
 
         let time = platComp.getTime();
@@ -210,7 +199,7 @@ export class Typescript extends Component {
             this.curIndexMidi = 0;
             this.startPos = new Vec3(0,0,0);
             
-            for(let i = 0; i < 4; i++){
+            for(let i = 0; i < 5; i++){
                 this.genPlat();
                 this.curIndexMidi++;
             }
@@ -248,10 +237,10 @@ export class Typescript extends Component {
             pos = this.platRoot.children[this.platRoot.children.length - 1].getWorldPosition();
         }
         if(this.curIndexMidi >= this.notes.length){
-            // this.resetGame();
             return;
         }
-        let time = this.notes[this.curIndexMidi]["space"];
+
+        let time = this.notes[this.curIndexMidi];
         pos.z += time * this.ctrl.getVz();
         if(time > 0.2){
             pos.x = -1.5 + Math.random() * 3.5;

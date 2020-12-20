@@ -74,6 +74,13 @@
   ],
   "_props": [
     {
+      "mainColor": {
+        "__type__": "cc.Color",
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 0
+      },
       "alphaThreshold": 0,
       "emissive": {
         "__type__": "cc.Color",

@@ -57,7 +57,7 @@ export class BallCtrl extends Component {
         }
         this.vy = -this.gravity * this.jumTime * 0.5;
         if(this.jumTime > 2){
-            this.vy *= 0.2;
+            this.vy *= (0.8 / this.jumTime);
         }
 
         this.isJumping = true;
@@ -72,6 +72,7 @@ export class BallCtrl extends Component {
             this.missing_time = this.passedTime - this.jumTime;
             dt -= this.missing_time;
         }
+
         let pos = this.node.getWorldPosition();
         // pos.x += this.vx * dt;
         pos.z += this.vz * dt;
@@ -79,8 +80,8 @@ export class BallCtrl extends Component {
         pos.y += this.vy * dt + this.gravity * dt * dt * 0.5;// s = s0 + v0*t + a*t*t*0.5;
         if(pos.y <= 0.5){
             pos.y = 0.5;
-        } 
-        this.vy += (this.jumTime > 2 ? 0.2 : 1) * this.gravity * dt; // v = v0 + a*t;
+        }
+        this.vy += (this.jumTime > 2 ? (0.8 / this.jumTime - 0.0005) : 1) * this.gravity * dt; // v = v0 + a*t;
 
         this.node.setWorldPosition(pos);
         

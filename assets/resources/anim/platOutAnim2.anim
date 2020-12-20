@@ -55,9 +55,6 @@
           "materials",
           0
         ],
-        "valueAdapter": {
-          "__id__": 2
-        },
         "data": {
           "keys": 1,
           "values": [
@@ -98,6 +95,9 @@
             }
           ],
           "easingMethods": {}
+        },
+        "valueAdapter": {
+          "__id__": 2
         }
       }
     ],
